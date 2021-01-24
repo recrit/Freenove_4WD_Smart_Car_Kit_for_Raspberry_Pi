@@ -34,7 +34,6 @@ class Ultrasonic:
         distance_cm=sorted(distance_cm)
         return int(distance_cm[2])
 
-        return 0
     def run_motor(self,L,M,R):
         if (L < 30 and M < 30 and R <30) or M < 30 :
             self.PWM.setMotorModel(-1450,-1450,-1450,-1450)
