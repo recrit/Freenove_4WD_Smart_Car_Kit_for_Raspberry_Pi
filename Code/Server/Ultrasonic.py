@@ -30,7 +30,7 @@ class Ultrasonic:
             self.wait_for_echo(False,10000)
             finish = time.time()
             pulse_len = finish-start
-            distance_cm[i] = pulse_len/0.000058
+            distance_cm.append(pulse_len/0.000058)
         distance_count = len(distance_cm)
         if (distance_count > 0):
             return int(sum(distance_cm)/distance_count)
