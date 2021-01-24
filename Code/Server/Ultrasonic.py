@@ -20,7 +20,7 @@ class Ultrasonic:
         count = timeout
         while GPIO.input(self.echo_pin) != value and count>0:
             count = count-1
-     
+
     def get_distance(self):
         distance_cm=[0,0,0,0,0]
         for i in range(3):
@@ -31,12 +31,12 @@ class Ultrasonic:
             finish = time.time()
             pulse_len = finish-start
             distance_cm[i] = pulse_len/0.000058
-        distance_cm=sorted(distance_cm)
-        return int(distance_cm[2])
+        distance_cm_avg=sum(distance_cm)/len(distance_cm)
+        return int(distance_cm_avg)
     def run_motor(self,L,M,R):
         if (L < 30 and M < 30 and R <30) or M < 30 :
-            self.PWM.setMotorModel(-1450,-1450,-1450,-1450) 
-            time.sleep(0.1)   
+            self.PWM.setMotorModel(-1450,-1450,-1450,-1450)
+            time.sleep(0.1)
             if L < R:
                 self.PWM.setMotorModel(1450,1450,-1450,-1450)
             else :
@@ -54,8 +54,8 @@ class Ultrasonic:
             if R < 10 :
                 PWM.setMotorModel(-1500,-1500,1500,1500)
         else :
-            self.PWM.setMotorModel(600,600,600,600)
-                
+            self.PWM.setMotorModel(900,900,900,900)
+
     def run(self):
         self.PWM=Motor()
         self.pwm_S=Servo()
@@ -89,10 +89,10 @@ class Ultrasonic:
                 else:
                     R = self.get_distance()
                 self.run_motor(L,M,R)
-        
-            
-        
-ultrasonic=Ultrasonic()              
+
+
+
+ultrasonic=Ultrasonic()
 # Main program logic follows:
 if __name__ == '__main__':
     print ('Program is starting ... ')
@@ -101,4 +101,3 @@ if __name__ == '__main__':
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
         PWM.setMotorModel(0,0,0,0)
         ultrasonic.pwm_S.setServoPwm('0',90)
-
